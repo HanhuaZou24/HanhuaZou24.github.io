@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study — Hanhua Zou</title>
+<meta name="description" content="Case study: video streaming over TCP and UDP with per-frame measurement, and how this GitHub Pages site is measured end to end.">
+<link rel="canonical" href="https://hanhuazou24.github.io/projects.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Cpath d='M18 44V20h6l16 15V20h6v24h-6L24 29v15z' fill='%2338d6c8'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/main.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark" aria-hidden="true">◆</span>
+      <span class="brand-text">Hanhua Zou</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="projects.html" aria-current="true">Case study</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-toggle" type="button"
+              aria-label="Switch colour theme" aria-pressed="true" title="Switch theme">
+        <span class="theme-icon" aria-hidden="true">☾</span>
+      </button>
+      <button class="icon-btn burger" id="nav-toggle" type="button"
+              aria-label="Open navigation" aria-expanded="false" aria-controls="nav">
+        <span aria-hidden="true">≡</span>
+      </button>
+    </div>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="container">
+      <a class="back-link" href="index.html">← Back to the portfolio</a>
+      <h1>Case study</h1>
+      <p class="lede">
+        Two pieces of work from <strong>CSI205TC Networking and Distributed Computing</strong>:
+        a video streaming system implemented on both a reliable stream and an unreliable
+        datagram transport, and the measurement of the site you are reading right now.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="streaming">
+    <div class="container prose">
+      <h2>1. Video streaming over TCP and UDP</h2>
+      <p>
+        The brief was to build a Python video streaming application twice — once on TCP and
+        once on UDP — and to compare them with a packet capture. Both versions carry the same
+        640×480 JPEG frames from a server process to a client process; the only variable is the
+        transport underneath.
+      </p>
+
+      <h3>Design</h3>
+      <ul>
+        <li><strong>TCP:</strong> each frame is one length-prefixed message, so the receiver can
+          always re-synchronise on a message boundary. TCP supplies retransmission and ordering;
+          the application only has to frame.</li>
+        <li><strong>UDP:</strong> each frame is split into 1300-byte chunks carrying a 20-byte
+          header with a frame id, a chunk index and a count. The receiver reassembles by header,
+          not by arrival order, and drops a frame that is missing any chunk.</li>
+        <li><strong>Measurement:</strong> the sender writes a monotonic timestamp into every
+          header, so the receiver reports one-way latency and interarrival jitter for every
+          single frame rather than one bulk transfer time.</li>
+      </ul>
+
+      <h3>Measured result</h3>
+      <p>
+        Four scenarios, 600 frames each: two on a clean loopback path, two with an emulated
+        impairment. The impairment was applied by a relay process on the wire, so the dropped
+        datagrams really never arrive and the capture shows the gap.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th><th>Frames</th><th>Loss</th><th>Goodput</th>
+            <th>Latency (mean)</th><th>Jitter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>TCP, clean path</td><td class="num">600 / 600</td><td class="num">0 %</td>
+              <td class="num">5.24 Mbit/s</td><td class="num">0.269 ms</td><td class="num">0.079 ms</td></tr>
+          <tr><td>UDP, clean path</td><td class="num">600 / 600</td><td class="num">0 %</td>
+              <td class="num">5.23 Mbit/s</td><td class="num">0.575 ms</td><td class="num">0.181 ms</td></tr>
+          <tr><td>TCP, 40 ms added RTT</td><td class="num">600 / 600</td><td class="num">0 %</td>
+              <td class="num">5.23 Mbit/s</td><td class="num">20.58 ms</td><td class="num">0.190 ms</td></tr>
+          <tr><td>UDP, 2 % loss + jitter</td><td class="num">435 / 600</td><td class="num">27.5 %</td>
+              <td class="num">3.79 Mbit/s</td><td class="num">28.02 ms</td><td class="num">0.990 ms</td></tr>
+        </tbody>
+      </table>
+
+      <h3>What the capture shows</h3>
+      <p>
+        The interesting number is not the 27.5 %: it is <em>why</em> 2 % of datagrams became
+        27.5 % of frames. A frame survives only if every one of its fragments survives, so the
+        frame delivery ratio is <code>(1 − p)<sup>n</sup></code> with <code>n ≈ 17</code>
+        fragments per frame. The model predicts 29.2 % loss; the client measured 27.5 %.
+      </p>
+      <p>
+        In the capture of the impaired run, frame&nbsp;5 received 15 of its 16 fragments —
+        chunk 11 never arrived — and the arrival order was 3, 7, 12, 8, 14, 5, 4, 9, 1, 13,
+        10, 6, 2, 16, 15. Nothing in the protocol notices either the loss or the reordering:
+        there is no acknowledgement to time out and no retransmission to trigger. That absence
+        is exactly the trade UDP makes, and it is why real live video layers RTP, NACK and FEC
+        on top rather than sending bare datagrams.
+      </p>
+
+      <blockquote>
+        Reducing <code>n</code> is the most effective lever: an encoder producing 4 kB frames
+        would need three fragments, and 2 % loss would cost about 6 % of frames instead of 28 %.
+      </blockquote>
+
+      <p>
+        Full detail — including the per-frame latency distributions, the packet-size histogram
+        and the tshark analysis of both captures — is in the Question 1 report.
+      </p>
+    </div>
+  </section>
+
+  <section class="section alt" id="website">
+    <div class="container prose">
+      <h2>2. Measuring this website</h2>
+      <p>
+        This page is served by GitHub Pages over HTTPS. That makes it a convenient target for a
+        layered measurement: the same visit exercises DNS, TCP, TLS and HTTP, and each layer can
+        be timed and captured separately.
+      </p>
+
+      <h3>The protocol stack of one visit</h3>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Protocol</th><th>What it does for this page</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Application</td><td>HTTP/2 over TLS 1.3</td>
+              <td>requests the HTML, CSS and JavaScript; multiplexes them on one connection</td></tr>
+          <tr><td>Presentation</td><td>TLS 1.3</td>
+              <td>encrypts the exchange and validates the certificate for the domain</td></tr>
+          <tr><td>Transport</td><td>TCP</td>
+              <td>ordered, reliable delivery; connection established with a three-way handshake</td></tr>
+          <tr><td>Network</td><td>IP</td>
+              <td>routes packets between the client and GitHub’s CDN addresses</td></tr>
+          <tr><td>Naming</td><td>DNS</td>
+              <td>resolves the host name to four GitHub Pages addresses</td></tr>
+        </tbody>
+      </table>
+
+      <h3>How it is measured</h3>
+      <ul>
+        <li><strong>DNS</strong> — <code>nslookup</code> for the name, plus the resolution time
+          measured by the resolver call itself.</li>
+        <li><strong>Reachability and latency</strong> — <code>ping</code> for round-trip time and
+          <code>tracert</code> for the path, run from the client machine.</li>
+        <li><strong>Connection setup</strong> — TCP connect time and TLS handshake time, measured
+          separately so the cost of each layer is visible.</li>
+        <li><strong>Packet level</strong> — a Wireshark capture of the DNS query, the TCP
+          handshake, the TLS ClientHello/ServerHello and the HTTP response, filtered to this
+          domain only.</li>
+      </ul>
+
+      <p>
+        The measurement script and the capture are part of the same coursework package as this
+        site, and the numbers are reported alongside the capture evidence in the Question 2
+        section of the report.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="mapreduce">
+    <div class="container prose">
+      <h2>3. Still to come</h2>
+      <p>
+        Two more assignments on the same module are in progress and will appear here when they
+        are finished:
+      </p>
+      <ul>
+        <li><strong>Word count, three ways</strong> — a hand-written Python Map/Reduce with no
+          framework, then the same aggregation in Hadoop MapReduce and Apache Spark on an
+          identical dataset, compared on code size, startup cost and shuffle behaviour.</li>
+        <li><strong>A Spark MLlib pipeline</strong> — loading, exploration, feature assembly,
+          training, prediction and evaluation, with the metrics reported next to the confusion
+          matrix rather than buried in a notebook cell.</li>
+      </ul>
+      <p class="muted">This page is deliberately honest about which work is finished.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© <span id="year">2026</span> Hanhua Zou. Built by hand with HTML, CSS and JavaScript.</p>
+    <p class="muted">
+      Hosted on GitHub Pages ·
+      <a href="https://github.com/HanhuaZou24/HanhuaZou24.github.io" rel="noopener">view source</a>
+    </p>
+  </div>
+</footer>
+</body>
+</html>

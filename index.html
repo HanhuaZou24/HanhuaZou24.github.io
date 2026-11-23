@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanhua Zou — Personal Portfolio</title>
+<meta name="description" content="Personal portfolio of Hanhua Zou, a computer science student at Xi'an Jiaotong-Liverpool University. Projects in networking, distributed computing and machine learning.">
+<meta name="author" content="Hanhua Zou">
+<meta name="keywords" content="Hanhua Zou, portfolio, XJTLU, computer science, networking, distributed computing">
+<link rel="canonical" href="https://hanhuazou24.github.io/">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hanhua Zou — Personal Portfolio">
+<meta property="og:description" content="Networking, distributed computing and machine learning projects.">
+<meta property="og:url" content="https://hanhuazou24.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Cpath d='M18 44V20h6l16 15V20h6v24h-6L24 29v15z' fill='%2338d6c8'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/css/style.css" as="style">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/main.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Home">
+      <span class="brand-mark" aria-hidden="true">◆</span>
+      <span class="brand-text">Hanhua Zou</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="projects.html">Case study</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-toggle" type="button"
+              aria-label="Switch colour theme" aria-pressed="true" title="Switch theme">
+        <span class="theme-icon" aria-hidden="true">☾</span>
+      </button>
+      <button class="icon-btn burger" id="nav-toggle" type="button"
+              aria-label="Open navigation" aria-expanded="false" aria-controls="nav">
+        <span aria-hidden="true">≡</span>
+      </button>
+    </div>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+      <span class="grid"></span>
+    </div>
+    <div class="container hero-inner">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Available for collaboration</p>
+      <h1 id="hero-title">
+        Hi, I’m <span class="accent">Hanhua Zou</span>.<br>
+        I build networked systems&nbsp;— and then measure them.
+      </h1>
+      <p class="lede">
+        Final-year computer science student at Xi’an Jiaotong-Liverpool University,
+        focused on networking, distributed computing and applied machine learning.
+        This site is also the artefact for <strong>CSI205TC</strong>, where it is used as the
+        target of a live DNS / TCP / TLS / HTTP measurement study.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#projects">See the projects</a>
+        <a class="btn btn-ghost" href="projects.html">Read the case study →</a>
+      </div>
+      <ul class="stats" role="list">
+        <li><strong>5</strong><span>coursework projects</span></li>
+        <li><strong>TCP / UDP</strong><span>streaming transports compared</span></li>
+        <li><strong>TLS 1.3</strong><span>served by GitHub Pages</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ ABOUT ============================ -->
+  <section class="section" id="about" aria-labelledby="about-title">
+    <div class="container two-col">
+      <div class="reveal">
+        <h2 id="about-title"><span class="section-no">01</span> About</h2>
+        <p>
+          I am studying computer science at the Academy of Artificial Intelligence and
+          Advanced Technology, Xi’an Jiaotong-Liverpool University. My interests sit where
+          operating systems, networks and data systems meet: how bytes actually leave one
+          machine, what the kernel hides, and what the measurements really say.
+        </p>
+        <p>
+          Most of what I build starts as a question about a protocol. For
+          <strong>CSI205TC Networking and Distributed Computing</strong> I implemented a video
+          streaming system twice — once on TCP and once on UDP — and compared them frame by
+          frame with Wireshark, which is where my interest in packet-level analysis comes from.
+        </p>
+        <p class="muted">
+          This page is a static site: hand-written HTML, CSS and JavaScript, no framework and
+          no build step, served by GitHub Pages.
+        </p>
+      </div>
+
+      <aside class="card profile reveal" aria-label="Quick facts">
+        <div class="avatar" aria-hidden="true">HZ</div>
+        <dl class="facts">
+          <div><dt>Based in</dt><dd>Suzhou, China</dd></div>
+          <div><dt>Studying</dt><dd>BSc Computer Science</dd></div>
+          <div><dt>Focus</dt><dd>Networks · Distributed systems</dd></div>
+          <div><dt>Toolbox</dt><dd>Python · Java · C · Scripting</dd></div>
+          <div><dt>Currently</dt><dd>Measuring this very site</dd></div>
+        </dl>
+        <a class="btn btn-small" href="#contact">Get in touch</a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================ PROJECTS ============================ -->
+  <section class="section alt" id="projects" aria-labelledby="projects-title">
+    <div class="container">
+      <h2 id="projects-title"><span class="section-no">02</span> Selected projects</h2>
+      <p class="section-lede">
+        Four of the five coursework assignments, chosen because each one forced a different
+        kind of engineering: transport design, distributed execution, and model evaluation.
+      </p>
+
+      <div class="cards">
+        <article class="card project reveal">
+          <div class="project-top">
+            <span class="tag tag-tcp">TCP · UDP</span>
+            <span class="project-no">01</span>
+          </div>
+          <h3>Video streaming over sockets</h3>
+          <p>
+            A JPEG frame stream with two transports: a length-prefixed TCP byte stream and a
+            fragmented UDP datagram channel with application-level reassembly. Both measure
+            one-way latency per frame; a relay emulates loss and jitter so the failure modes
+            are reproducible.
+          </p>
+          <ul class="result-list">
+            <li><strong>0 %</strong> frame loss on both transports on a clean path</li>
+            <li><strong>27.5 %</strong> frame loss from 2 % datagram loss over an impaired path</li>
+            <li>Loss amplification follows (1&nbsp;−&nbsp;p)<sup>n</sup> with n ≈ 17 fragments per frame</li>
+          </ul>
+          <a class="link-arrow" href="projects.html#streaming">Case study →</a>
+        </article>
+
+        <article class="card project reveal">
+          <div class="project-top">
+            <span class="tag tag-tcp">DNS · TLS · HTTP</span>
+            <span class="project-no">02</span>
+          </div>
+          <h3>Measuring this website</h3>
+          <p>
+            The site is its own experiment: every layer from the DNS lookup to the TLS
+            handshake and the HTTP response is measured and captured, so the numbers in the
+            report come from a real visit rather than from a diagram.
+          </p>
+          <ul class="result-list">
+            <li>Domain name and the four GitHub Pages addresses it resolves to</li>
+            <li>TCP connect, TLS handshake and time-to-first-byte, measured</li>
+            <li>Wireshark capture of the DNS, TCP and TLS exchange</li>
+          </ul>
+          <a class="link-arrow" href="projects.html#website">Case study →</a>
+        </article>
+
+        <article class="card project reveal">
+          <div class="project-top">
+            <span class="tag tag-ml">In progress</span>
+            <span class="project-no">03</span>
+          </div>
+          <h3>Word count and a Spark MLlib pipeline</h3>
+          <p>
+            The next two assignments on the same module: the same aggregation written as a
+            hand-rolled Python Map/Reduce, as Hadoop MapReduce and as an Apache Spark job, then
+            a complete Spark MLlib workflow from feature assembly to held-out evaluation.
+          </p>
+          <ul class="result-list">
+            <li>Pure-Python mapper and reducer, no framework</li>
+            <li>Identical dataset across Hadoop and Spark</li>
+            <li>MLlib: preprocessing, training, prediction, metrics</li>
+          </ul>
+          <a class="link-arrow" href="projects.html#mapreduce">What is planned →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SKILLS ============================ -->
+  <section class="section" id="skills" aria-labelledby="skills-title">
+    <div class="container">
+      <h2 id="skills-title"><span class="section-no">03</span> Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-block reveal">
+          <h3>Languages</h3>
+          <ul class="chips" role="list">
+            <li>Python</li><li>Java</li><li>C</li><li>SQL</li><li>JavaScript</li><li>Bash / PowerShell</li>
+          </ul>
+        </div>
+        <div class="skill-block reveal">
+          <h3>Networking</h3>
+          <ul class="chips" role="list">
+            <li>TCP / UDP</li><li>Sockets</li><li>Wireshark / tshark</li><li>DNS</li><li>TLS</li><li>HTTP</li>
+          </ul>
+        </div>
+        <div class="skill-block reveal">
+          <h3>Data systems</h3>
+          <ul class="chips" role="list">
+            <li>Hadoop MapReduce</li><li>Apache Spark</li><li>Spark MLlib</li><li>Pandas</li><li>OpenPyXL</li>
+          </ul>
+        </div>
+        <div class="skill-block reveal">
+          <h3>Practices</h3>
+          <ul class="chips" role="list">
+            <li>Protocol design</li><li>Performance measurement</li><li>Reproducible experiments</li><li>Technical writing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TIMELINE ============================ -->
+  <section class="section alt" id="timeline" aria-labelledby="timeline-title">
+    <div class="container">
+      <h2 id="timeline-title"><span class="section-no">04</span> How I got here</h2>
+      <ol class="timeline">
+        <li class="reveal">
+          <span class="time">Year 1</span>
+          <div>
+            <h3>Fundamentals</h3>
+            <p>Programming, data structures and the first networking course — where the
+               difference between a stream and a datagram stopped being abstract.</p>
+          </div>
+        </li>
+        <li class="reveal">
+          <span class="time">Year 2</span>
+          <div>
+            <h3>Systems and concurrency</h3>
+            <p>Operating systems, threads and processes, and a lot of time spent reading
+               packet captures to explain behaviour that the code “should not” produce.</p>
+          </div>
+        </li>
+        <li class="reveal">
+          <span class="time">Year 3</span>
+          <div>
+            <h3>Distributed computing</h3>
+            <p>CSI205TC: transport design under loss, MapReduce and Spark, and an MLlib
+               pipeline end to end. This site is part of that coursework.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================ CONTACT ============================ -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container contact">
+      <h2 id="contact-title"><span class="section-no">05</span> Contact</h2>
+      <p class="section-lede">
+        The fastest way to reach me is email. I am happy to talk about transport protocols,
+        measurement methodology, or anything involving a packet capture.
+      </p>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:Hanhua.Zou24@student.xjtlu.edu.cn">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">Hanhua.Zou24@student.xjtlu.edu.cn</span>
+        </a>
+        <a class="contact-card" href="https://github.com/HanhuaZou24" rel="noopener">
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">@HanhuaZou24</span>
+        </a>
+        <a class="contact-card" href="https://hanhuazou24.github.io/" rel="noopener">
+          <span class="contact-label">This site</span>
+          <span class="contact-value">HanhuaZou24.github.io</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© <span id="year">2026</span> Hanhua Zou. Built by hand with HTML, CSS and JavaScript.</p>
+    <p class="muted">
+      Hosted on GitHub Pages ·
+      <a href="https://github.com/HanhuaZou24/HanhuaZou24.github.io" rel="noopener">view source</a>
+    </p>
+  </div>
+</footer>
+</body>
+</html>
